@@ -12,15 +12,14 @@ const router = express.Router();
 router.get('/me',
   passport.authenticate('basic', {session: false}),
   (req, res) => {
-
-    let userId = req.user._id;
+    const userId = req.user._id;
 
     User.findOne({_id: userId}, (err, user) => {
       if (err)
         return res.json({status: 'error', data: err});
 
       return res.json({status: 'ok', data: user})
-    })
+    });
   });
 
 router.post('/register',

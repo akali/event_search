@@ -4,11 +4,14 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 
 // connection to mongoose
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost:27017/test', {useUnifiedTopology: true, useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/test', {useUnifiedTopology: true, useNewUrlParser: true})
+  .then(() => console.log('Connected'))
+  .catch(reason => console.error.bind(console, 'connection error:', reason));
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () { console.log('connected') });
+const CounterSchema = mongoose.Schema({
+  _id: { type: String, required: true },
+  seq: { type: Number, default: 0 },
+});
 
 // mongo schemas
 const Article = mongoose.model('Article', {
@@ -34,4 +37,57 @@ passport.use(new BasicStrategy((username, password, done) => {
   })
 }));
 
-module.exports = {Article, User, passport};
+const eventSchema = mongoose.Schema({
+  id: Number,
+  title: String,
+  description: String,
+  location: String,
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  image: String,
+});
+const counter = mongoose.model('counter', CounterSchema);
+// counter.create({
+//   _id: 'eventId',
+// }, (err, counter) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log('~~~~~', counter);
+//   }
+// });
+
+eventSchema.pre('save', function(next) {
+  const doc = this;
+  counter.findByIdAndUpdate({
+    _id: 'eventId',
+  }, {
+    $inc: { seq: 1 }
+  }, function (error, counter) {
+    if (error) {
+      return next(error);
+    }
+    doc.id = counter.seq;
+    next();
+  })
+});
+
+const Event = mongoose.model('Event', eventSchema);
+
+// Event.create({
+//   title: 'Hello',
+//   description: 'World',
+//   location: 'Almaty',
+//   user_id: '5de4d21fc722e22e49ae5536',
+//   image: 'https://miro.medium.com/max/1024/0*4ty0Adbdg4dsVBo3.png'
+// }, (err, article) => {
+//   if (err) {
+//     console.error(err);
+//   } else {
+//     console.log(article);
+//   }
+// });
+
+module.exports = {Article, User, Event, passport};

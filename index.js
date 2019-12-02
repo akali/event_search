@@ -4,6 +4,7 @@ const port = process.env.PORT || 8080;
 
 const usersRouter = require('./routes/authentication');
 const articlesRouter = require('./routes/articles');
+const eventsRouter = require('./routes/events');
 
 const bodyParser = require("body-parser");
 
@@ -14,6 +15,7 @@ app.get('/', (req, res) => res.send('hello from express'));
 
 app.use('/articles', articlesRouter);
 app.use('/users', usersRouter);
+app.use('/events', eventsRouter);
 
 // start node js server
 app.listen(port, function () {

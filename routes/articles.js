@@ -34,7 +34,7 @@ router.post('/',
         return res.json({status: 'error', data: err});
 
       return res.json({status: 'ok', data: article})
-    })
+    });
   });
 
 
