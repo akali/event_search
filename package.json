@@ -1,0 +1,26 @@
+{
+  "name": "event_search",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akali/event_search.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akali/event_search/issues"
+  },
+  "homepage": "https://github.com/akali/event_search#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.12",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0"
+  }
+}
