@@ -2,9 +2,13 @@ const mongoose = require("mongoose");
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 
+// console.log(process.ENV.get("MONGOLAB_URI"));
+const MONGO_URI = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test';
+console.log(MONGO_URI);
+
 // connection to mongoose
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost:27017/test', {useUnifiedTopology: true, useNewUrlParser: true})
+mongoose.connect(MONGO_URI, {useUnifiedTopology: true, useNewUrlParser: true})
   .then(() => console.log('Connected'))
   .catch(reason => console.error.bind(console, 'connection error:', reason));
 
