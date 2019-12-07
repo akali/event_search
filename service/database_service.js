@@ -53,15 +53,15 @@ const eventSchema = mongoose.Schema({
   image: String,
 });
 const counter = mongoose.model('counter', CounterSchema);
-// counter.create({
-//   _id: 'eventId',
-// }, (err, counter) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log('~~~~~', counter);
-//   }
-// });
+counter.create({
+  _id: 'eventId',
+}, (err, counter) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('~~~~~', counter);
+  }
+});
 
 eventSchema.pre('save', function(next) {
   const doc = this;
@@ -80,18 +80,18 @@ eventSchema.pre('save', function(next) {
 
 const Event = mongoose.model('Event', eventSchema);
 
-// Event.create({
-//   title: 'Hello',
-//   description: 'World',
-//   location: 'Almaty',
-//   user_id: '5de4d21fc722e22e49ae5536',
-//   image: 'https://miro.medium.com/max/1024/0*4ty0Adbdg4dsVBo3.png'
-// }, (err, article) => {
-//   if (err) {
-//     console.error(err);
-//   } else {
-//     console.log(article);
-//   }
-// });
+Event.create({
+  title: 'Hello',
+  description: 'World',
+  location: 'Almaty',
+  user_id: '5de4d21fc722e22e49ae5536',
+  image: 'https://miro.medium.com/max/1024/0*4ty0Adbdg4dsVBo3.png'
+}, (err, article) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(article);
+  }
+});
 
 module.exports = {Article, User, Event, passport};
